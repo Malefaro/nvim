@@ -114,16 +114,17 @@ inoremap <expr><A-k> pumvisible() ? "\<Up>" : "\<C-p>"
 tmap <A-j> <Down>
 tmap <A-k> <Up>
 
-nmap J 15j
-nmap K 15k
+nmap J 5j
+nmap K 5k
 
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 nmap <A-l>  gt<ESC>
 nmap <A-h>  gT<ESC>
+nmap <ESC> :nohlsearch<CR>
 
 nnoremap <A-S-o> :Files<CR>
-nnoremap <A-S-f> :Ag<CR>
+nnoremap <A-S-f> :Ag 
 nnoremap <A-w> :w<CR><CR>:tabclose<CR>
 
 " jump tabs
