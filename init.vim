@@ -32,8 +32,8 @@ let g:mapleader=','
 call plug#begin(stdpath('data') . '/plugged')
 
 "Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'preservim/nerdtree' |
-            \ Plug 'Xuyuanp/nerdtree-git-plugin'
+"Plug 'preservim/nerdtree' |
+            "\ Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Color scheme
 Plug 'morhetz/gruvbox'
@@ -52,6 +52,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'puremourning/vimspector'
 Plug 'tweekmonster/django-plus.vim'
 Plug 'preservim/tagbar'
+Plug 'tpope/vim-fugitive'
 call plug#end()
 
 let g:coc_global_extensions = [
