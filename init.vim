@@ -59,6 +59,7 @@ let g:coc_global_extensions = [
       \'coc-markdownlint',
       \'coc-highlight',
       \'coc-go',
+      \'coc-jedi',
       \'coc-python',
       \'coc-json',
       \'coc-explorer',
