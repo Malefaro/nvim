@@ -9,6 +9,9 @@ set softtabstop=4
 set tabstop=4
 "set expandtab
 set autoread
+" line length
+set colorcolumn=119
+
 autocmd TextChanged,TextChangedI <buffer> silent write
 
 set number
