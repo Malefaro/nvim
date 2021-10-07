@@ -130,6 +130,7 @@ nmap <ESC> :nohlsearch<CR>
 nnoremap <A-S-o> :Files<CR>
 nnoremap <A-S-f> :Ag 
 nnoremap <A-w> :w<CR><CR>:tabclose<CR>
+nnoremap <A-s> :w<CR>
 
 " jump tabs
 map <C-j> <C-W>j
