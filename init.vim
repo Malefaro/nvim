@@ -34,10 +34,6 @@ let g:mapleader=','
 
 call plug#begin(stdpath('data') . '/plugged')
 
-"Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-"Plug 'preservim/nerdtree' |
-            "\ Plug 'Xuyuanp/nerdtree-git-plugin'
-
 " Color scheme
 Plug 'morhetz/gruvbox'
 Plug 'dracula/vim', { 'as': 'dracula' }
@@ -55,12 +51,13 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tweekmonster/django-plus.vim'
 Plug 'preservim/tagbar'
 Plug 'tpope/vim-fugitive'
-
+Plug 'hoob3rt/lualine.nvim'
 " debugger
 Plug 'mfussenegger/nvim-dap'
 " tests
 Plug 'vim-test/vim-test'
 Plug 'rcarriga/vim-ultest', { 'do': ':UpdateRemotePlugins' }
+Plug 'xiyaowong/nvim-transparent'
 call plug#end()
 
 let g:coc_global_extensions = [
@@ -94,15 +91,6 @@ let g:go_code_completion_enabled = 0
 let g:go_doc_keywordprg_enabled = 0
 "-------------------------------------
 
-"colorscheme gruvbox
-" color dracula
-"let g:airline#extensions#hunks#enabled=0
-"let g:airline#extension#branch#enabled=1
-"let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-
-"" Nerd tree mapping
-"map <C-n> : NERDTreeToggle<CR>
-
 " coc-explorer
 map <C-n> :CocCommand explorer<CR>
 
@@ -130,7 +118,7 @@ map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 nmap <A-l>  gt<ESC>
 nmap <A-h>  gT<ESC>
-nmap <ESC> :nohlsearch<CR>
+nmap <silent> <ESC> :nohlsearch<CR>
 
 nnoremap <A-S-o> :Files<CR>
 nnoremap <A-S-f> :Ag 
@@ -143,6 +131,7 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
+command Reload :source ~/.config/nvim/init.vim
 au BufWritePost *.go :silent !gofmt -w %
 autocmd BufWritePost *.go edit
 autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
@@ -174,6 +163,11 @@ nnoremap <silent> <leader>dl :lua require'dap'.list_breakpoints()<CR>:copen<CR>
 " LUA
 " ___________________________________________________________________________________
 lua <<EOF
+require('lualine').setup()
+require("transparent").setup({
+  enable = true,
+})
+
 local widgets = require('dap.ui.widgets')
 local scopes_sidebar = widgets.sidebar(widgets.scopes, {}, "45 vsplit")
 local frames_sidebar = widgets.sidebar(widgets.frames, {}, "rightbelow 30 vsplit")
@@ -202,8 +196,15 @@ nnoremap <silent> <leader>dx :lua closeDebug()<CR>
 " vim-test
 "nmap <silent> <leader>tn :TestNearest<CR>
 "nmap <silent> <leader>tf :TestFile<CR>
+let test#go#gotest#options = "-count=1 -timeout=60s -v"
 nmap <leader>tn <Plug>(ultest-run-nearest)
 nmap <leader>td <Plug>(ultest-debug-nearest)
+nmap <leader>ts <Plug>(ultest-summary-toggle)
+nmap <leader>to <Plug>(ultest-output-jump)
+nmap <leader>ta <Plug>(ultest-attach)
+nmap <leader>tf <Plug>(ultest-run-file)
+	" end
+nmap <leader>te <Plug>(ultest-stop-file)
 
 " ___________________________________________________________________________________
 " LUA dap
