@@ -153,7 +153,7 @@ nnoremap <silent> [d :lua require'dap'.step_out()<CR>
 nnoremap <silent> <leader>l :lua require'dap'.step_into()<CR>
 nnoremap <silent> <leader>db :lua require'dap'.toggle_breakpoint()<CR>
 nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
-	" end
+	" end debug
 nnoremap <silent> <leader>de :lua require'dap'.disconnect()<CR>:lua require'dap'.close()<CR>
 	" list breakpoints
 nnoremap <silent> <leader>dl :lua require'dap'.list_breakpoints()<CR>:copen<CR>
@@ -190,7 +190,9 @@ EOF
 " ___________________________________________________________________________________
 " END OF LUA
 " ___________________________________________________________________________________
+" open debug windows
 nnoremap <silent> <leader>ds :lua setupDebug()<CR>
+" close debug windows
 nnoremap <silent> <leader>dx :lua closeDebug()<CR>
 
 " vim-test
