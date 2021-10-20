@@ -121,6 +121,10 @@ map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
+" resize
+command -nargs=1 Vrs :vertical resize <args><CR>
+command -nargs=1 Rs :resize <args><CR>
+
 
 command Reload :source ~/.config/nvim/init.vim
 "au BufWritePost *.go :silent !gofmt -w %

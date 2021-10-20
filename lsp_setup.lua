@@ -191,6 +191,9 @@ require'nvim-tree'.setup {
 	update_focused_file = {
 		enable      = true,
 	},
+	view = {
+		width = 40,
+	}
 }
 map('n', "<C-n>", "<cmd>NvimTreeToggle<CR>", opts)
 
