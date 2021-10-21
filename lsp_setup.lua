@@ -74,6 +74,45 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagn
   update_in_insert = true,
 })
 
+local function goto_definition(split_cmd)
+  local util = vim.lsp.util
+  local log = require("vim.lsp.log")
+  local api = vim.api
+
+  --local handler = function(_, result, ctx) -- new style handles
+  local handler = function(_, method, result)
+    if result == nil or vim.tbl_isempty(result) then
+      local _ = log.info() and log.info(method, "No location found")
+      return nil
+    end
+	-- get full path (remove file:// prefix)
+	local name = string.sub(result[1]['uri'], 8)
+	-- find window(split) with this buffer
+	local winid = vim.fn.bufwinid(name);
+	-- if exists jump to it
+	if winid ~= nil then
+		vim.fn.win_gotoid(winid)
+	end
+
+    if vim.tbl_islist(result) then
+      util.jump_to_location(result[1])
+      if #result > 1 then
+        util.set_qflist(util.locations_to_items(result))
+        api.nvim_command("copen")
+        api.nvim_command("wincmd p")
+      end
+    else
+		-- jump to location
+		util.jump_to_location(result)
+    end
+  end
+
+  return handler
+end
+
+vim.lsp.handlers["textDocument/definition"] = goto_definition('split')
+
+
 vim.o.completeopt = 'menuone,noselect,noinsert'
 local luasnip = require 'luasnip'
 local cmp = require 'cmp'
@@ -171,6 +210,7 @@ map('n', '<leader>qf', ":lua require'telescope.builtin'.lsp_code_actions(require
 map('n', 'gi', ":lua require'telescope.builtin'.lsp_implementations{}<CR>",opts)
 map('n', '<A-S-f>', ":lua require'telescope.builtin'.live_grep{}<CR>",opts)
 map('n', '<A-S-o>', ":lua require'telescope.builtin'.find_files{}<CR>",opts)
+map('n', '<A-S-q>', ":lua require'telescope.builtin'.quickfix{}<CR>",opts)
 -- <C-d> - preview down
 -- <C-u> - preview up
 

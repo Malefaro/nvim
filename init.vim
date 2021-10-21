@@ -112,6 +112,9 @@ tmap <A-k> <Up>
 nmap J 5j
 nmap K 5k
 
+" exist to normal mode in terminal
+tnoremap <Esc> <C-\><C-n>
+
 nmap <silent> <ESC> :nohlsearch<CR>
 
 nnoremap <A-s> :w<CR>
