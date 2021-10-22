@@ -4,15 +4,16 @@ local nvim_lsp = require'lspconfig'
 function on_attach(client, bufnr)
 	local function map(...)
 		vim.api.nvim_buf_set_keymap(bufnr, ...)
-	  end
+	end
     map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', {})
 	map('n', 'U', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
 	map('n', '[c', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
 	map('n', ']c', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
 	map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 	map('n', '<leader>gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+	map('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting_sync()<CR>', opts)
 	--map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-	vim.api.nvim_command("au BufWritePost <buffer> lua vim.lsp.buf.formatting()")
+	vim.api.nvim_command("au BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
 end
 
 -------------------------------------------------------------------------
@@ -125,8 +126,8 @@ cmp.setup {
   mapping = {
     ['<A-k>'] = cmp.mapping.select_prev_item(),
     ['<A-j>'] = cmp.mapping.select_next_item(),
-    ['<A-S-k>'] = cmp.mapping.scroll_docs(-4),
-    ['<A-S-j>'] = cmp.mapping.scroll_docs(4),
+    --['<A-S-k>'] = cmp.mapping.scroll_docs(-4),
+    --['<A-S-j>'] = cmp.mapping.scroll_docs(4),
     ['<A-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
 	['<CR>'] = cmp.mapping.confirm {
@@ -163,7 +164,7 @@ cmp.setup {
 --_______________________________________________________________________
 vim.opt.termguicolors = true
 require("bufferline").setup{
-	diagnostics = "nvim_lsp",
+	--diagnostics = "nvim_lsp",
 }
 
 map('n', '<A-l>', ":BufferLineCycleNext<CR>", opts)
@@ -248,3 +249,8 @@ ts.setup {
 		enable = true,
 	}
 }
+
+-------------------------------------------------------------------------
+-- vgit
+--_______________________________________________________________________
+require('vgit').setup()

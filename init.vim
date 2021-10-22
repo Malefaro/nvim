@@ -7,10 +7,12 @@ set backspace=2
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
-"set expandtab
+set expandtab
 set autoread
 " line length
 set colorcolumn=119
+" for gitgutter
+set updatetime=100
 
 autocmd TextChanged,TextChangedI <buffer> silent write
 
@@ -38,6 +40,7 @@ call plug#begin(stdpath('data') . '/plugged')
 Plug 'morhetz/gruvbox'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'crusoexia/vim-monokai'
+Plug 'joshdick/onedark.vim'
 
 "Plug 'fatih/vim-go'
 Plug 'ryanoasis/vim-devicons'
@@ -72,10 +75,12 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'akinsho/bufferline.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
+Plug 'tanvirtin/vgit.nvim'
 call plug#end()
 
 " colorscheme dracula
-colorscheme monokai
+"colorscheme monokai
+colorscheme onedark
 "colorscheme gruvbox
 
 
@@ -117,13 +122,18 @@ tnoremap <Esc> <C-\><C-n>
 
 nmap <silent> <ESC> :nohlsearch<CR>
 
-nnoremap <A-s> :w<CR>
+nnoremap <silent><A-s> :w<CR>
 
 " jump tabs
 map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
+
+noremap <silent><C-A-j> :resize +3<CR>
+noremap <silent><C-A-k> :resize -3<CR>
+noremap <silent><C-A-h> :vertical resize -3<CR>
+noremap <silent><C-A-l> :vertical resize +3<CR>
 " resize
 command -nargs=1 Vrs :vertical resize <args><CR>
 command -nargs=1 Rs :resize <args><CR>
