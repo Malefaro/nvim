@@ -44,7 +44,8 @@ Plug 'joshdick/onedark.vim'
 
 "Plug 'fatih/vim-go'
 Plug 'ryanoasis/vim-devicons'
-Plug 'preservim/nerdcommenter'
+"Plug 'preservim/nerdcommenter'
+Plug 'terrortylor/nvim-comment'
 Plug 'mhinz/vim-startify'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -75,7 +76,7 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'akinsho/bufferline.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
-Plug 'tanvirtin/vgit.nvim'
+"Plug 'tanvirtin/vgit.nvim'
 call plug#end()
 
 " colorscheme dracula
@@ -123,6 +124,7 @@ tnoremap <Esc> <C-\><C-n>
 nmap <silent> <ESC> :nohlsearch<CR>
 
 nnoremap <silent><A-s> :w<CR>
+nnoremap <silent><C-s> :w<CR>
 
 " jump tabs
 map <C-j> <C-W>j
@@ -324,7 +326,7 @@ require("ultest").setup({
 			request = "launch",
 			mode = "test",
 			-- program = "./${relativeFileDirname}",
-			program = "${relativeFileDirname}",
+			program = "./${relativeFileDirname}",
 			dlvToolPath = vim.fn.exepath("dlv"),
 			args = args
 		  },

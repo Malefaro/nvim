@@ -184,6 +184,8 @@ require('telescope').setup{
       i = {
 		  ["<A-j>"] = "move_selection_next",
 		  ["<A-k>"] = "move_selection_previous",
+		  -- ["<TAB>"] = "move_selection_next",
+		  -- ["<S-TAB>"] = "move_selection_previous",
       },
 	  n = {
 	  }
@@ -206,10 +208,10 @@ require('telescope').setup{
     -- please take a look at the readme of the extension you want to configure
   }
 }
-map('n', 'gr', ":lua require'telescope.builtin'.lsp_references{}<CR>",opts)
+map('n', 'gr', ":lua require'telescope.builtin'.lsp_references{layout_strategy='vertical', layout_config={preview_height=0.7}}<CR>",opts)
 map('n', '<leader>qf', ":lua require'telescope.builtin'.lsp_code_actions(require'telescope.themes'.get_cursor())<CR>",opts)
 map('n', 'gi', ":lua require'telescope.builtin'.lsp_implementations{}<CR>",opts)
-map('n', '<A-S-f>', ":lua require'telescope.builtin'.live_grep{}<CR>",opts)
+map('n', '<A-S-f>', ":lua require'telescope.builtin'.live_grep{layout_strategy='vertical', layout_config={preview_height=0.5}}<CR>",opts)
 map('n', '<A-S-o>', ":lua require'telescope.builtin'.find_files{}<CR>",opts)
 map('n', '<A-S-q>', ":lua require'telescope.builtin'.quickfix{}<CR>",opts)
 -- <C-d> - preview down
@@ -253,4 +255,6 @@ ts.setup {
 -------------------------------------------------------------------------
 -- vgit
 --_______________________________________________________________________
-require('vgit').setup()
+--require('vgit').setup()
+
+require('nvim_comment').setup({line_mapping = "<leader>cc", operator_mapping = "<leader>c"})
