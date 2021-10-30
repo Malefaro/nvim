@@ -80,10 +80,10 @@ local function goto_definition(split_cmd)
   local log = require("vim.lsp.log")
   local api = vim.api
 
-  --local handler = function(_, result, ctx) -- new style handles
-  local handler = function(_, method, result)
+  local handler = function(_, result, ctx) -- new style handles
+  -- local handler = function(_, method, result)
     if result == nil or vim.tbl_isempty(result) then
-      local _ = log.info() and log.info(method, "No location found")
+      local _ = log.info() and log.info(ctx.method, "No location found")
       return nil
     end
 	-- get full path (remove file:// prefix)
