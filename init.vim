@@ -78,8 +78,13 @@ Plug 'akinsho/bufferline.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
 "Plug 'tanvirtin/vgit.nvim'
+" Rust
+Plug 'simrat39/rust-tools.nvim'
+Plug 'nvim-lua/popup.nvim'
 call plug#end()
 
+" command RustSetInlayHints :lua require("rust-tools.inlay_hints").set_inlay_hints{}<CR>
+autocmd CursorHold,CursorHoldI,BufEnter,BufWinEnter,TabEnter,CursorMoved,CursorMovedI *.rs :lua require'rust-tools.inlay_hints'.set_inlay_hints()
 " colorscheme dracula
 "colorscheme monokai
 colorscheme onedark
@@ -215,6 +220,7 @@ nnoremap <silent> <leader>dx :lua closeDebug()<CR>
 let test#go#gotest#options = "-count=1 -timeout=60s -v"
 let test#python#runner = 'pytest'
 let test#python#pytest#options = "--dc=Local --ds=gateway.settings_local --color=yes --reuse-db"
+let test#rust#cargotest#options = "-- --nocapture"
 nmap <leader>tn <Plug>(ultest-run-nearest)
 nmap <leader>td <Plug>(ultest-debug-nearest)
 nmap <leader>ts <Plug>(ultest-summary-toggle)

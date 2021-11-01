@@ -63,10 +63,21 @@ lsp_installer.on_server_ready(function(server)
 	if server.name == "gopls" then
 		opts.cmd = {"gopls"} -- gopls installed in gobin path
 	end
+    if server.name =="rust_analyzer" then
+
+        require('rust-tools').setup({ server = {
+            on_attach = on_attach,
+            cmd=server._default_options.cmd,
+            capabilities = capabilities,
+        } })
+        return
+    end
 
 	server:setup(opts)
 	vim.cmd [[ do User LspAttachBuffers ]]
 end)
+
+
 
 vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
   virtual_text = true,
@@ -86,20 +97,25 @@ local function goto_definition(split_cmd)
       local _ = log.info() and log.info(ctx.method, "No location found")
       return nil
     end
-	-- get full path (remove file:// prefix)
-	local name = string.sub(result[1]['uri'], 8)
-	-- find window(split) with this buffer
-	local winid = vim.fn.bufwinid(name);
-	-- if exists jump to it
-	if winid ~= nil then
-		vim.fn.win_gotoid(winid)
-	end
+    local uri = result[1]['uri'] or result[1]['targetUri'] -- for rust-analyzer
+    if uri ~= nil then
+        -- get full path (remove file:// prefix)
+        local name = string.sub(uri, 8)
+        -- find window(split) with this buffer
+        local winid = vim.fn.bufwinid(name);
+        -- if exists jump to it
+        if winid ~= nil then
+            vim.fn.win_gotoid(winid)
+        end
+    end
 
     if vim.tbl_islist(result) then
       util.jump_to_location(result[1])
       if #result > 1 then
         util.set_qflist(util.locations_to_items(result))
         api.nvim_command("copen")
+        vim.cmd("lua require'telescope.builtin'.quickfix{}")
+        api.nvim_command("cclose")
         api.nvim_command("wincmd p")
       end
     else
@@ -257,4 +273,14 @@ ts.setup {
 --_______________________________________________________________________
 --require('vgit').setup()
 
+
+-------------------------------------------------------------------------
+-- nvim_comment
+--_______________________________________________________________________
 require('nvim_comment').setup({line_mapping = "<leader>cc", operator_mapping = "<leader>c"})
+
+-------------------------------------------------------------------------
+-- rust_tools
+--_______________________________________________________________________
+-- not working with LspInstaller. Watch lsp installer section where is activated
+
