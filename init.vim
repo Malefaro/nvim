@@ -90,6 +90,10 @@ autocmd CursorHold,CursorHoldI,BufEnter,BufWinEnter,TabEnter,CursorMoved,CursorM
 colorscheme onedark
 "colorscheme gruvbox
 
+if executable("rg")
+    set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
+endif
 
 "------------------------------------
 " vim go
@@ -325,7 +329,9 @@ require("ultest").setup({
 			-- Delve requires test flags be prefix with 'test.'
 			arg = "-test." .. string.sub(arg, 2)
 		  end
-		  args[#args + 1] = arg
+          if arg ~= "-test.timeout" then
+              args[#args + 1] = arg
+          end
 		end
 		return {
 		  dap = {
