@@ -132,6 +132,11 @@ vim.lsp.handlers["textDocument/definition"] = goto_definition('split')
 
 vim.o.completeopt = 'menuone,noselect,noinsert'
 local luasnip = require 'luasnip'
+-- prevent jumping to last snippet placeholder if esc before snippet ends
+luasnip.config.setup{
+  region_check_events = "CursorMoved",
+  delete_check_events = "TextChanged",
+}
 local cmp = require 'cmp'
 cmp.setup {
   snippet = {
