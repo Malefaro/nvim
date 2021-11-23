@@ -44,10 +44,11 @@ Plug 'joshdick/onedark.vim'
 
 " vim-go for GoAddTags, GoImpl etc
 Plug 'fatih/vim-go'
+
 Plug 'ryanoasis/vim-devicons'
 "Plug 'preservim/nerdcommenter'
 Plug 'terrortylor/nvim-comment'
-Plug 'mhinz/vim-startify'
+" Plug 'mhinz/vim-startify'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'jiangmiao/auto-pairs'
@@ -55,7 +56,9 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tweekmonster/django-plus.vim'
 Plug 'preservim/tagbar'
 Plug 'tpope/vim-fugitive'
-Plug 'hoob3rt/lualine.nvim'
+Plug 'shumphrey/fugitive-gitlab.vim'
+" Plug 'hoob3rt/lualine.nvim'
+Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
 " debugger
 Plug 'mfussenegger/nvim-dap'
 " tests
@@ -77,12 +80,20 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'akinsho/bufferline.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
+Plug 'rmagatti/auto-session'
+Plug 'mfussenegger/nvim-lint'
 "Plug 'tanvirtin/vgit.nvim'
 " Rust
 Plug 'simrat39/rust-tools.nvim'
 Plug 'nvim-lua/popup.nvim'
+Plug 'mhinz/vim-crates'
 call plug#end()
 
+let g:fugitive_gitlab_domains = ['https://git.cryptology.com']
+
+if has('nvim')
+  autocmd BufRead Cargo.toml call crates#toggle()
+endif
 " command RustSetInlayHints :lua require("rust-tools.inlay_hints").set_inlay_hints{}<CR>
 autocmd CursorHold,CursorHoldI,BufEnter,BufWinEnter,TabEnter,CursorMoved,CursorMovedI *.rs :lua require'rust-tools.inlay_hints'.set_inlay_hints()
 " colorscheme dracula
@@ -93,6 +104,7 @@ colorscheme onedark
 if executable("rg")
     set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
     set grepformat=%f:%l:%c:%m,%f:%l:%m
+    command! -nargs=* Grep :grep! <args> | :lua require'telescope.builtin'.quickfix{layout_strategy='vertical', layout_config={preview_height=0.5}}<CR>
 endif
 
 "------------------------------------
@@ -127,14 +139,22 @@ tmap <A-k> <Up>
 
 nmap J 5j
 nmap K 5k
+nmap L 3l
+nmap H 3h
+vmap J 5j
+vmap K 5k
+vmap L 3l
+vmap H 3h
+
 
 " exist to normal mode in terminal
 tnoremap <Esc> <C-\><C-n>
 
 nmap <silent> <ESC> :nohlsearch<CR>
 
-nnoremap <silent><A-s> :w<CR>
-nnoremap <silent><C-s> :w<CR>
+nnoremap <silent><A-s> :w<CR>:SaveSession<CR>:lua require('lint').try_lint()<CR>
+
+nnoremap <silent><C-s> :w<CR>:SaveSession<CR>:lua require('lint').try_lint()<CR>
 
 " jump tabs
 map <C-j> <C-W>j
@@ -181,11 +201,11 @@ nnoremap <silent> <leader>dl :lua require'dap'.list_breakpoints()<CR>:copen<CR>
 " LUA
 " ___________________________________________________________________________________
 lua <<EOF
-require('lualine').setup({
-sections = {
-	lualine_c = {{'filename', path=1}}
-	}
-})
+-- require('lualine').setup({
+-- sections = {
+-- 	lualine_c = {{'filename', path=1}}
+-- 	}
+-- })
 require("transparent").setup({
   enable = true,
 })
